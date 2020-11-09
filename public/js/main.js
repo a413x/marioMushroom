@@ -7,10 +7,7 @@ const context = canvas.getContext('2d')
 const gridW = canvas.width/textureW
 const gridH = canvas.height/textureW
 
-let deltaTime = 0
-let prevTimeStamp = 0
-
-const mario = new Mario(gridW/2*textureW, gridH*textureW - 3*textureW)
+const mario = new Mario(2*textureW, gridH*textureW - 3*textureW)
 
 function drawAll(){
   context.clearRect(0, 0, canvas.width, canvas.height)
@@ -27,14 +24,25 @@ function drawAll(){
   mario.draw(context)
 }
 
-function game(timeStamp){
-  deltaTime = (timeStamp - prevTimeStamp) / 1000
-  prevTimeStamp = timeStamp
+const deltaTime = 1/60
+let prevTime = 0
+let accumulatedTime = 0
 
-  mario.update(deltaTime)
+mario.vx = 200
+mario.vy = -400
+
+function game(time){
+  accumulatedTime += (time - prevTime) / 1000
+  prevTime = time
+
+  while(accumulatedTime > deltaTime){
+    mario.update(deltaTime)
+    accumulatedTime -= deltaTime
+  }
 
   drawAll()
 
   requestAnimationFrame(game)
 }
-game(0)
+
+requestAnimationFrame(game)

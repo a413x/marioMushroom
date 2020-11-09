@@ -1,7 +1,7 @@
 import image from './texturesImage.js'
 
 export const textureW = 16
-const textures = {
+const texturesPositions = {
   'ground': {x: 372, y: 124},
   'sky': {x: 274, y: 365},
   'mario': {x: 23, y: 507},
@@ -11,9 +11,13 @@ const textures = {
   'mushroom-cap-left': {x: 57, y: 343},
   'mushroom-cap-right': {x: 23, y: 507}
 }
+const textures = {}
+for(let name in texturesPositions){
+  textures[name] = getTextureImage(name)
+}
 
 function getTextureImage(textureName){
-  const {x, y} = textures[textureName]
+  const {x, y} = texturesPositions[textureName]
 	const buffer = document.createElement('canvas')
   buffer.getContext('2d').drawImage(
     image, x, y, textureW, textureW, 0, 0, textureW, textureW
@@ -22,8 +26,7 @@ function getTextureImage(textureName){
 }
 
 export function drawTexture(context, textureName, x, y){
-  const textureImage = getTextureImage(textureName)
-  context.drawImage(textureImage, x, y)
+  context.drawImage(textures[textureName], x, y)
 }
 
 export function fillTexture(context, textureName, gridOptions){
