@@ -9,7 +9,7 @@ const texturesPositions = {
   'mushroom-stipe-top': {x: 74, y: 360},
   'mushroom-cap': {x: 74, y: 343},
   'mushroom-cap-left': {x: 57, y: 343},
-  'mushroom-cap-right': {x: 23, y: 507}
+  'mushroom-cap-right': {x: 91, y: 343}
 }
 const textures = {}
 for(let name in texturesPositions){
