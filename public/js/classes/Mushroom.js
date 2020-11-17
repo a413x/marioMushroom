@@ -1,7 +1,7 @@
 import { getRandom } from '../utils.js'
-import { textureW, fillTexture } from '../textures.js'
+import { textureW, drawTexture, fillTextureRange } from '../textures.js'
 
-class Mushroom{
+export class Mushroom{
   constructor(x, y, capSize, stipeSize){
     this.x = x
     this.y = y
@@ -11,74 +11,66 @@ class Mushroom{
 
   getBounds(){
     return {
-      x1: this.x * textureW,
-      y1: this.y * textureW,
-      x2: (this.x + this.capSize) * textureW,
-      y2: (this.y + 1) * textureW
+      x1: this.x,
+      y1: this.y,
+      x2: this.x + this.capSize * textureW,
+      y2: this.y + textureW
     }
   }
 
-  draw(context){
-    fillTexture(
-      context,
-      'mushroom-cap-left',
-      {
-        xStart: this.x,
-        xEnd: this.x + 1,
-        yStart: this.y,
-        yEnd: this.y + 1
-      }
-    )
-    fillTexture(
+  drawCap(context){
+    drawTexture(context, 'mushroom-cap-left', this.x, this.y)
+    fillTextureRange(
       context,
       'mushroom-cap',
-      {
-        xStart: this.x + 1,
-        xEnd: this.x + this.capSize - 1,
-        yStart: this.y,
-        yEnd: this.y + 1
-      }
+      this.x + textureW,
+      this.capSize - 2,
+      this.y,
+      1
     )
-    fillTexture(
+    drawTexture(
       context,
       'mushroom-cap-right',
-      {
-        xStart: this.x + this.capSize - 1,
-        xEnd: this.x + this.capSize,
-        yStart: this.y,
-        yEnd: this.y + 1
-      }
+      this.x + (this.capSize-1) * textureW,
+      this.y
     )
-    fillTexture(
+  }
+  drawStipe(context){
+    const centerX = this.x + (this.capSize - 1)/2 * textureW
+    drawTexture(
       context,
       'mushroom-stipe-top',
-      {
-        xStart: this.x + Math.floor(this.capSize/2),
-        xEnd: this.x + Math.floor(this.capSize/2) + 1,
-        yStart: this.y + 1,
-        yEnd: this.y + 2
-      }
+      centerX,
+      this.y + textureW
     )
-    fillTexture(
+    fillTextureRange(
       context,
       'mushroom-stipe',
-      {
-        xStart: this.x + Math.floor(this.capSize/2),
-        xEnd: this.x + Math.floor(this.capSize/2) + 1,
-        yStart: this.y + 2,
-        yEnd: this.y + this.stipeSize + 1
-      }
+      centerX,
+      1,
+      this.y + 2 * textureW,
+      this.stipeSize - 1
     )
   }
 }
 
-export function createRandomMushroom(gridW, gridH){
+export function createRandomMushroom(xStart, xEnd, canvH){
   let capSize = getRandom(3, 10)
   //cap size must be odd
   if(capSize%2 === 0) capSize ++
-  const stipeSize = getRandom(1, 15)
-  const x = getRandom(0, gridW)
-  const y = gridH - stipeSize - 1
+  const gridH = canvH/textureW
+  const stipeSize = getRandom(1, gridH - 1)
+  const x = getRandom(xStart, xEnd - capSize*textureW)
+  const y = (gridH - stipeSize - 1)*textureW
 
   return new Mushroom(x, y, capSize, stipeSize)
+}
+
+export function createMushrooms(xStart, xEnd, canvH){
+  const number = getRandom(3, 5)
+  const mushrooms = []
+  for(let i = 0; i < number; i++){
+    mushrooms.push(createRandomMushroom(xStart, xEnd, canvH))
+  }
+  return mushrooms
 }

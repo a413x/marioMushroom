@@ -29,6 +29,20 @@ export function drawTexture(context, textureName, x, y){
   context.drawImage(textures[textureName], x, y)
 }
 
+export function fillTextureRange(
+  context,
+  textureName,
+  xStart,
+  xCount,
+  yStart,
+  yCount){
+  for(let i = 0; i < xCount; i++){
+    for(let j = 0; j < yCount; j++){
+      drawTexture(context, textureName, xStart + i*textureW, yStart + j*textureW)
+    }
+  }
+}
+
 export function fillTexture(context, textureName, gridOptions){
   for(let i = gridOptions.xStart; i < gridOptions.xEnd; i++){
     for(let j = gridOptions.yStart; j < gridOptions.yEnd; j++){

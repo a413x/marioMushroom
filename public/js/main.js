@@ -1,10 +1,10 @@
-import { textureW } from './textures.js'
+import { textureW, fillTexture } from './textures.js'
 import { setupKeyboard } from './setupKeyboard.js'
 import Background from './classes/Background.js'
 import { Mario } from './classes/Mario.js'
-import { createRandomMushroom } from './classes/Mushroom.js'
 import Collider from './classes/Collider.js'
-import { drawAll } from './draw.js'
+
+import { createMushrooms } from './classes/Mushroom.js'
 
 const canvas = document.getElementById('canvas')
 const context = canvas.getContext('2d')
@@ -15,19 +15,9 @@ const gridH = canvas.height/textureW
 const background = new Background('sky', gridW, gridH)
 const mario = new Mario(2*textureW, 0, textureW, textureW)
 
-const mushrooms = []
-mushrooms.push(createRandomMushroom(gridW, gridH))
-mushrooms.push(createRandomMushroom(gridW, gridH))
-mushrooms.push(createRandomMushroom(gridW, gridH))
-mushrooms.push(createRandomMushroom(gridW, gridH))
-mushrooms.push(createRandomMushroom(gridW, gridH))
+const mushrooms = createMushrooms(0,canvas.width,canvas.height)
 
-const layers = {}
-layers.background = [background]
-layers.surfaces = mushrooms
-layers.creatures = [mario]
-
-const collider = new Collider(layers.surfaces)
+const collider = new Collider(mushrooms)
 
 setupKeyboard(mario)
 
@@ -40,6 +30,26 @@ function update(deltaTime){
 
   const gravity = 1000
   mario.vy += gravity * deltaTime
+
+  if(mario.x > 256/2) {
+    mario.x = 256/2
+    mushrooms.forEach(mushroom => mushroom.x--)
+  }
+  if(mario.x < 0) {
+    mario.x = 0
+  }
+}
+
+function drawAll(context){
+  context.clearRect(0, 0, canvas.width, canvas.height)
+  background.draw(context)
+  mushrooms.forEach(mushroom => {
+    mushroom.drawStipe(context)
+  })
+  mushrooms.forEach(mushroom => {
+    mushroom.drawCap(context)
+  })
+  mario.draw(context)
 }
 
 const deltaTime = 1/60
@@ -55,7 +65,7 @@ function game(time){
     accumulatedTime -= deltaTime
   }
 
-  drawAll(context, layers)
+  drawAll(context)
 
   requestAnimationFrame(game)
 }
