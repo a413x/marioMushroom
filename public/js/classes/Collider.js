@@ -3,6 +3,10 @@ export default class Collider{
     this.collideObjects = collideObjects
   }
 
+  update(objects){
+    this.collideObjects = objects
+  }
+
   checkX(creature) {
     this.collideObjects.forEach(obj => {
       const {x1: ox1, y1: oy1, x2: ox2, y2: oy2} = obj.getBounds()

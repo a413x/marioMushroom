@@ -1,6 +1,6 @@
 import { drawTexture } from '../textures.js'
 
-export class Mario{
+export default class Mario{
   constructor(x, y, w, h){
     this.x = x
     this.y = y
