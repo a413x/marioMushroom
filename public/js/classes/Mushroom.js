@@ -54,23 +54,44 @@ export class Mushroom{
   }
 }
 
-export function createRandomMushroom(xStart, xEnd, canvH){
+export function createMushroom(gridX, gridY, gridH){
   let capSize = getRandom(3, 10)
   //cap size must be odd
   if(capSize%2 === 0) capSize ++
-  const gridH = canvH/textureW
-  const stipeSize = getRandom(1, gridH - 1)
-  const x = getRandom(xStart, xEnd - capSize*textureW)
-  const y = (gridH - stipeSize - 1)*textureW
 
-  return new Mushroom(x, y, capSize, stipeSize)
+  const stipeSize = gridH - gridY - 1
+
+  return new Mushroom(
+    gridX * textureW,
+    gridY * textureW,
+    capSize,
+    stipeSize
+  )
 }
 
-export function createMushrooms(xStart, xEnd, canvH){
-  const number = getRandom(3, 5)
+export function createMushrooms(number, lastMushroom, gridH){
   const mushrooms = []
+  let prevMushroom = lastMushroom
+
   for(let i = 0; i < number; i++){
-    mushrooms.push(createRandomMushroom(xStart, xEnd, canvH))
+    //get a new x after previous mushroom stipe position
+    //to aviod mushrooms overlapping
+    const center = (prevMushroom.capSize + 1)/2
+    const newX = Math.round(prevMushroom.x/textureW) + center + getRandom(1,8)
+
+    //new mushroom must not be too high
+    //to be possible for mario to jump on
+    let newY = getRandom(1, gridH - 2)
+    const prevY = Math.round(prevMushroom.y/textureW)
+    if(prevY === newY) {
+      newY --
+    }else if(newY < prevY - 3){
+      newY = prevY - 3
+    }
+
+    const mushroom = createMushroom(newX, newY, gridH)
+    mushrooms.push(mushroom)
+    prevMushroom = mushroom
   }
   return mushrooms
 }

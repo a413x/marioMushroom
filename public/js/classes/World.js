@@ -3,7 +3,7 @@ import { setupKeyboard } from '../setupKeyboard.js'
 import Mario from './Mario.js'
 import Background from './Background.js'
 import Collider from './Collider.js'
-import { createMushrooms } from './Mushroom.js'
+import { createMushrooms, createMushroom } from './Mushroom.js'
 
 export default class World{
   constructor(canvas){
@@ -19,19 +19,22 @@ export default class World{
 
     this.background = new Background('sky', this.gridW, this.gridH)
 
-    this.mushrooms = createMushrooms(0, this.w*2, this.h)
+    const numberOfMushrooms = 20
+    const startMushroom = createMushroom(1, 8, this.gridH)
+    this.mushrooms = [
+      startMushroom,
+      ...createMushrooms(numberOfMushrooms, startMushroom, this.gridH)
+    ]
 
     this.collider = new Collider(this.mushrooms)
+
+    this.cameraX = 0
   }
 
   updateMushrooms(){
     const mushroomsToRemove = []
-    let xMax = 0
     this.mushrooms.forEach(mushroom => {
       mushroom.x --
-      if(mushroom.x > xMax) {
-        xMax = mushroom.x
-      }
       if(mushroom.x + mushroom.capSize*textureW < 0){
         mushroomsToRemove.push(mushroom)
       }
@@ -40,12 +43,19 @@ export default class World{
       this.mushrooms = this.mushrooms.filter(mushroom => {
         return !mushroomsToRemove.includes(mushroom)
       })
-    }
-    if(xMax < this.w) {
-      const newMushrooms = createMushrooms(this.w*1.5, this.w*3.5, this.h)
-      this.mushrooms = [...this.mushrooms, ...newMushrooms]
+      this.generateMushrooms(mushroomsToRemove.length)
     }
     this.collider.update(this.mushrooms)
+  }
+
+  generateMushrooms(number){
+    if(!number) return
+    const newMushrooms = createMushrooms(
+      number,
+      this.mushrooms[this.mushrooms.length-1],
+      this.gridH
+    )
+    this.mushrooms = [...this.mushrooms, ...newMushrooms]
   }
 
   update(deltaTime){
