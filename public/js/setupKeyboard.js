@@ -6,24 +6,16 @@ export function setupKeyboard(mario){
   const keyboard = new Keyboard()
   keyboard.addCallback(UP, keyState => {
     if(keyState){
-      mario.vy = -300
-    }else{
-      mario.vy = 0
+      mario.startJump()
+    }else {
+      mario.stopJump()
     }
   })
   keyboard.addCallback(LEFT, keyState => {
-    if(keyState){
-      mario.vx = -50
-    }else{
-      mario.vx = 0
-    }
+    mario.direction += keyState ? -1 : 1;
   })
   keyboard.addCallback(RIGHT, keyState => {
-    if(keyState){
-      mario.vx = 50
-    }else{
-      mario.vx = 0
-    }
+    mario.direction += keyState ? 1 : -1;
   })
   keyboard.listen(window)
 }

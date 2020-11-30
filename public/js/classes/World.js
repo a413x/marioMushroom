@@ -31,10 +31,10 @@ export default class World{
     this.cameraX = 0
   }
 
-  updateMushrooms(){
+  updateMushrooms(deltaX){
     const mushroomsToRemove = []
     this.mushrooms.forEach(mushroom => {
-      mushroom.x --
+      mushroom.x -= deltaX
       if(mushroom.x + mushroom.capSize*textureW < 0){
         mushroomsToRemove.push(mushroom)
       }
@@ -61,6 +61,8 @@ export default class World{
   update(deltaTime){
     const mario = this.mario
 
+    mario.update(deltaTime)
+
     mario.x += mario.vx * deltaTime
     this.collider.checkX(mario)
 
@@ -70,9 +72,10 @@ export default class World{
     const gravity = 1000
     this.mario.vy += gravity * deltaTime
 
-    if(mario.x > this.w/2) {
-      mario.x = this.w/2
-      this.updateMushrooms()
+    if(mario.x > 100) {
+      const deltaX = Math.round(mario.x - 100)
+      this.updateMushrooms(deltaX)
+      mario.x = 100
     }
     if(mario.x < 0) {
       mario.x = 0

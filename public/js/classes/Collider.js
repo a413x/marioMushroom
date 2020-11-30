@@ -32,6 +32,7 @@ export default class Collider{
   }
 
   checkY(creature) {
+    let obstruct = 'none'
     this.collideObjects.forEach(obj => {
       const {x1: ox1, y1: oy1, x2: ox2, y2: oy2} = obj.getBounds()
       if(! (
@@ -45,14 +46,19 @@ export default class Collider{
         if (creature.y + creature.h > oy1) {
           creature.y = oy1 - creature.h
           creature.vy = 0
+
+          obstruct = 'bottom'
         }
       } else if (creature.vy < 0) {
         if (creature.y < oy2) {
           creature.y = oy2
           creature.vy = 0
+
+          obstruct = 'top'
         }
       }
     })
+    creature.obstruct(obstruct)
   }
 
 }

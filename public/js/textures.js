@@ -5,6 +5,10 @@ const texturesPositions = {
   'ground': {x: 372, y: 124},
   'sky': {x: 274, y: 365},
   'mario': {x: 23, y: 507},
+  'mario-run-1' : {x: 84, y: 507},
+  'mario-run-2' : {x: 100, y: 507},
+  'mario-run-3' : {x: 117, y: 507},
+  'mario-jump' : {x: 139, y: 507},
   'mushroom-stipe': {x: 74, y: 377},
   'mushroom-stipe-top': {x: 74, y: 360},
   'mushroom-cap': {x: 74, y: 343},
@@ -13,11 +17,11 @@ const texturesPositions = {
 }
 const textures = {}
 for(let name in texturesPositions){
-  textures[name] = getTextureImage(name)
+  textures[name] = getTextureImage(name, texturesPositions)
 }
 
-function getTextureImage(textureName){
-  const {x, y} = texturesPositions[textureName]
+function getTextureImage(textureName, positions){
+  const {x, y} = positions[textureName]
 	const buffer = document.createElement('canvas')
   buffer.getContext('2d').drawImage(
     image, x, y, textureW, textureW, 0, 0, textureW, textureW
