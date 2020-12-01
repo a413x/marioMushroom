@@ -1,15 +1,16 @@
-import { fillTexture } from '../textures.js'
+import { fillTexture } from '../textures/textures.js'
 
 export default class Background{
-  constructor(textureName, gridW, gridH){
+  constructor(gridW, gridH){
     this.w = gridW
     this.h = gridH
-    this.textureName = textureName
+    this.skyTexture = 'light-blue'
   }
   draw(context){
     fillTexture(
       context,
-      this.textureName,
+      'sky',
+      this.skyTexture,
       {
         xStart: 0,
         xEnd: this.w,

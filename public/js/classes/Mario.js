@@ -1,4 +1,4 @@
-import { drawTexture } from '../textures.js'
+import { drawTexture } from '../textures/textures.js'
 
 export default class Mario{
   constructor(x, y, w, h){
@@ -13,23 +13,19 @@ export default class Mario{
     this.canJump = false
     this.jumping = false
 
-    this.textureNames = [
-      'mario-run-1',
-      'mario-run-2',
-      'mario-run-3',
-    ]
-    this.animRun = createAnimation(this.textureNames, 10)
+    this.skin = 'mario'
+    this.animRun = createAnimation(['run-1','run-2','run-3'], 10)
   }
 
   draw(context){
-    let currentTexture = 'mario'
+    let currentTexture = 'idle'
     if(this.distance > 0) {
       currentTexture = this.animRun(this.distance)
     }
     if(this.jumping) {
-      currentTexture = 'mario-jump'
+      currentTexture = 'jump'
     }
-    drawTexture(context, currentTexture, this.x, this.y)
+    drawTexture(context, this.skin, currentTexture, this.x, this.y)
   }
 
   obstruct(side){

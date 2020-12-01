@@ -1,5 +1,5 @@
 import { getRandom } from '../utils.js'
-import { textureW, drawTexture, fillTextureRange } from '../textures.js'
+import { textureW, drawTexture, fillTextureRange } from '../textures/textures.js'
 
 export class Mushroom{
   constructor(x, y, capSize, stipeSize){
@@ -7,6 +7,7 @@ export class Mushroom{
     this.y = y
     this.capSize = capSize
     this.stipeSize = stipeSize
+    this.skin = 'm-orange'
   }
 
   getBounds(){
@@ -19,10 +20,11 @@ export class Mushroom{
   }
 
   drawCap(context){
-    drawTexture(context, 'mushroom-cap-left', this.x, this.y)
+    drawTexture(context, this.skin, 'cap-left', this.x, this.y)
     fillTextureRange(
       context,
-      'mushroom-cap',
+      this.skin,
+      'cap',
       this.x + textureW,
       this.capSize - 2,
       this.y,
@@ -30,7 +32,8 @@ export class Mushroom{
     )
     drawTexture(
       context,
-      'mushroom-cap-right',
+      this.skin,
+      'cap-right',
       this.x + (this.capSize-1) * textureW,
       this.y
     )
@@ -39,13 +42,15 @@ export class Mushroom{
     const centerX = this.x + (this.capSize - 1)/2 * textureW
     drawTexture(
       context,
-      'mushroom-stipe-top',
+      this.skin,
+      'stipe-top',
       centerX,
       this.y + textureW
     )
     fillTextureRange(
       context,
-      'mushroom-stipe',
+      this.skin,
+      'stipe',
       centerX,
       1,
       this.y + 2 * textureW,

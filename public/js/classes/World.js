@@ -17,7 +17,7 @@ export default class World{
     this.mario = new Mario(textureW*2, textureW*2, textureW, textureW)
     setupKeyboard(this.mario)
 
-    this.background = new Background('sky', this.gridW, this.gridH)
+    this.background = new Background(this.gridW, this.gridH)
 
     const numberOfMushrooms = 20
     const startMushroom = createMushroom(1, 8, this.gridH)
