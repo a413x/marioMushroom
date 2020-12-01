@@ -7,6 +7,7 @@ export default class Mario{
     this.w = w; this.h = h
 
     this.direction = 0
+    this.facing = 1
     this.distance = 0
 
     this.jumpGain = 0
@@ -14,7 +15,7 @@ export default class Mario{
     this.jumping = false
 
     this.skin = 'mario'
-    this.animRun = createAnimation(['run-1','run-2','run-3'], 10)
+    this.animRun = createAnimation(['run-1','run-2','run-3'], 8)
   }
 
   draw(context){
@@ -25,7 +26,8 @@ export default class Mario{
     if(this.jumping) {
       currentTexture = 'jump'
     }
-    drawTexture(context, this.skin, currentTexture, this.x, this.y)
+    const skin = this.skin + (this.facing > 0 ? '' : '-mirror')
+    drawTexture(context, skin, currentTexture, this.x, this.y)
   }
 
   obstruct(side){
@@ -64,6 +66,9 @@ export default class Mario{
     const friction = 5
 
     if(this.direction !== 0){
+      if(this.canJump) {
+        this.facing = this.direction
+      }
       this.vx += acceleration * this.direction * deltaTime
       if(Math.abs(this.vx) > maxSpeed) {
         this.vx = maxSpeed

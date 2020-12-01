@@ -7,27 +7,40 @@ export const textureW = 16
 
 const textures = {
   ...createTextures(marioTextures),
+  ...createTextures(marioTextures, true),
   ...createTextures(backgroundTextures),
   ...createTextures(mushroomTextures)
 }
 
-function createTextures(texturesPositions){
+function createTextures(texturesPositions, mirrored = false){
   const returnedTextures = {}
   for(let type in texturesPositions){
     const texturesForType = {}
     const positions = texturesPositions[type]
     for(let textureName in positions){
-      texturesForType[textureName] = getTextureImage(textureName, positions)
+      texturesForType[textureName] = getTextureImage(
+        textureName,
+        positions,
+        mirrored
+      )
     }
-    returnedTextures[type] = texturesForType
+    const returnedType = mirrored ? type + '-mirror' : type;
+    returnedTextures[returnedType] = texturesForType
   }
   return returnedTextures
 }
 
-function getTextureImage(textureName, positions){
+function getTextureImage(textureName, positions, mirrored = false){
   const [x, y] = positions[textureName]
 	const buffer = document.createElement('canvas')
-  buffer.getContext('2d').drawImage(
+  const bufferContext = buffer.getContext('2d')
+
+  if(mirrored) {
+    bufferContext.scale(-1, 1)
+    bufferContext.translate(-textureW, 0)
+  }
+
+  bufferContext.drawImage(
     image, x, y, textureW, textureW, 0, 0, textureW, textureW
   )
 	return buffer
