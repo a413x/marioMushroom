@@ -11,7 +11,7 @@ export default class Mario{
     this.distance = 0
 
     this.jumpGain = 0
-    this.canJump = false
+    this.onGround = false
     this.jumping = false
 
     this.skin = 'mario'
@@ -20,11 +20,17 @@ export default class Mario{
 
   draw(context){
     let currentTexture = 'idle'
-    if(this.distance > 0) {
-      currentTexture = this.animRun(this.distance)
-    }
-    if(this.jumping) {
+    if(!this.onGround) {
       currentTexture = 'jump'
+    }
+    else if(this.distance > 0) {
+      //turning
+      if(this.vx * this.direction < 0 && Math.abs(this.vx) > 30){
+        currentTexture = 'turn'
+      }
+      else{
+        currentTexture = this.animRun(this.distance)
+      }
     }
     const skin = this.skin + (this.facing > 0 ? '' : '-mirror')
     drawTexture(context, skin, currentTexture, this.x, this.y)
@@ -32,17 +38,17 @@ export default class Mario{
 
   obstruct(side){
     if(side === 'bottom'){
-      this.canJump = true
+      this.onGround = true
       this.jumping = false
     }else if(side === 'top'){
       this.jumpGain = 0
     }else {
-      this.canJump = false
+      this.onGround = false
     }
   }
 
   startJump(){
-    if(this.canJump) {
+    if(this.onGround) {
       this.jumpGain = .2
       this.jumping = true
     }
@@ -61,12 +67,12 @@ export default class Mario{
   }
 
   run(deltaTime){
-    const maxSpeed = 300
-    const acceleration = 300
+    const maxSpeed = 200
+    const acceleration = 200
     const friction = 5
 
     if(this.direction !== 0){
-      if(this.canJump) {
+      if(this.onGround) {
         this.facing = this.direction
       }
       this.vx += acceleration * this.direction * deltaTime

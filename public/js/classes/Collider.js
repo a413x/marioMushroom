@@ -17,6 +17,9 @@ export default class Collider{
         creature.y < oy2
       )) return
 
+      //prevent animation at side obstruct
+      creature.distance = 0
+
       if (creature.vx > 0) {
         if (creature.x + creature.w > ox1) {
           creature.x = ox1 - creature.w
