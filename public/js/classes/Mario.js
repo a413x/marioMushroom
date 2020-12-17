@@ -68,16 +68,20 @@ export default class Mario{
 
   run(deltaTime){
     const maxSpeed = 200
-    const acceleration = 200
+    let acceleration = 200
     const friction = 5
 
     if(this.direction !== 0){
       if(this.onGround) {
         this.facing = this.direction
       }
+      //shorten braking
+      if(this.direction * this.vx < 0) {
+        acceleration *= 2
+      }
       this.vx += acceleration * this.direction * deltaTime
       if(Math.abs(this.vx) > maxSpeed) {
-        this.vx = maxSpeed
+        this.vx = maxSpeed * this.direction
       }
     } else if(this.vx !== 0) {
       if(Math.abs(this.vx) > friction){
