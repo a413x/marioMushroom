@@ -1,16 +1,22 @@
-import image from './texturesImage.js'
+//import image from './texturesImage.js'
 import {marioTextures} from './marioTextures.js'
 import {backgroundTextures} from './backgroundTextures.js'
 import {mushroomTextures} from './mushroomTextures.js'
 
 export const textureW = 16
 
-const textures = {
-  ...createTextures(marioTextures),
-  ...createTextures(marioTextures, true),
-  ...createTextures(backgroundTextures),
-  ...createTextures(mushroomTextures)
-}
+let textures = null
+
+const image = new Image()
+image.addEventListener('load', e => {
+  textures = {
+    ...createTextures(marioTextures),
+    ...createTextures(marioTextures, true),
+    ...createTextures(backgroundTextures),
+    ...createTextures(mushroomTextures)
+  }
+})
+image.src = '../../textures.png'
 
 function createTextures(texturesPositions, mirrored = false){
   const returnedTextures = {}
@@ -47,7 +53,9 @@ function getTextureImage(textureName, positions, mirrored = false){
 }
 
 export function drawTexture(context, type, textureName, x, y){
-  context.drawImage(textures[type][textureName], x, y)
+  if(!textures) return
+  const texture = textures[type][textureName]
+  context.drawImage(texture, x, y)
 }
 
 export function fillTextureRange(
