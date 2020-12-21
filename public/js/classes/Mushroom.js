@@ -39,23 +39,36 @@ export class Mushroom{
     )
   }
   drawStipe(context){
+    const type = this.skin[0]
     const centerX = this.x + (this.capSize - 1)/2 * textureW
-    drawTexture(
-      context,
-      this.skin,
-      'stipe-top',
-      centerX,
-      this.y + textureW
-    )
-    fillTextureRange(
-      context,
-      this.skin,
-      'stipe',
-      centerX,
-      1,
-      this.y + 2 * textureW,
-      this.stipeSize - 1
-    )
+    if(type === 't'){
+      fillTextureRange(
+        context,
+        this.skin,
+        'stipe',
+        this.x + textureW,
+        this.capSize - 2,
+        this.y + textureW,
+        this.stipeSize
+      )
+    } else {
+      fillTextureRange(
+        context,
+        this.skin,
+        'stipe',
+        centerX,
+        1,
+        this.y + textureW,
+        this.stipeSize
+      )
+      drawTexture(
+        context,
+        this.skin,
+        'stipe-top',
+        centerX,
+        this.y + textureW
+      )
+    }
   }
 }
 
