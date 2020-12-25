@@ -71,10 +71,16 @@ export const mushroomTextures = {
     'cap-right' : [64, 128],
     'stipe' : [0, 32],
   },
-  't-purple': {
+  't-purple-1': {
     'cap-left' : [32, 160],
     'cap' : [48, 160],
     'cap-right' : [64, 160],
     'stipe' : [0, 16],
+  },
+  't-purple-2': {
+    'cap-left' : [32, 160],
+    'cap' : [48, 160],
+    'cap-right' : [64, 160],
+    'stipe' : [0, 48],
   },
 }

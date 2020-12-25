@@ -28,16 +28,16 @@ export const cloudTextures = {
     'top-left': [80, 64],
     'top-center': [96, 64],
     'top-right': [112, 64],
-    'bot-left': [80, 64],
-    'bot-center': [96, 64],
-    'bot-right': [112, 64],
-  },
-  'c-light-blue-2':{
-    'top-left': [80, 80],
-    'top-center': [96, 80],
-    'top-right': [112, 80],
     'bot-left': [80, 80],
     'bot-center': [96, 80],
     'bot-right': [112, 80],
+  },
+  'c-light-blue-2':{
+    'top-left': [80, 96],
+    'top-center': [96, 96],
+    'top-right': [112, 96],
+    'bot-left': [80, 112],
+    'bot-center': [96, 112],
+    'bot-right': [112, 112],
   }
 }
