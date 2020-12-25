@@ -2,15 +2,15 @@ import { drawTexture, fillTexture, textureW } from '../textures/textures.js'
 import { getRandom } from '../utils.js'
 
 export default class Background{
-  constructor(x, gridW, gridH){
+  constructor(x, gridW, gridH, theme){
     this.x = x
     this.y = 0
     this.canvas = document.createElement('canvas')
     this.canvas.width = gridW*textureW
     this.canvas.height = gridH*textureW
     this.context = this.canvas.getContext('2d')
-    this.sky = new Sky(gridW, gridH)
-    this.clouds = createClouds(gridW, gridH)
+    this.sky = new Sky(gridW, gridH, theme.background)
+    this.clouds = createClouds(gridW, gridH, theme.cloud)
   }
   draw(context){
     this.sky.draw(this.context)
@@ -20,10 +20,10 @@ export default class Background{
 }
 
 class Sky{
-  constructor(gridW, gridH){
+  constructor(gridW, gridH, skin){
     this.w = gridW
     this.h = gridH
-    this.skyTexture = 'light-blue'
+    this.skyTexture = skin
   }
   draw(context){
     fillTexture(
@@ -41,11 +41,11 @@ class Sky{
 }
 
 class Cloud{
-  constructor(x, y, size){
+  constructor(x, y, size, skin){
     this.x = x
     this.y = y
     this.size = size
-    this.skin = 'c-blue'
+    this.skin = skin
   }
   draw(context){
     const skin = this.skin
@@ -67,7 +67,7 @@ class Cloud{
   }
 }
 
-function createClouds(gridW, gridH){
+function createClouds(gridW, gridH, skin){
   const number = getRandom(1, 4)
 
   const cloudH = 2
@@ -91,7 +91,7 @@ function createClouds(gridW, gridH){
     if(overlap) continue
 
     generated.push({x: x, y: y, w: cloudW})
-    const cloud = new Cloud(x*textureW, y*textureW, size)
+    const cloud = new Cloud(x*textureW, y*textureW, size, skin)
     clouds.push(cloud)
   }
   return clouds

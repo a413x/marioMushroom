@@ -1,10 +1,10 @@
-import { drawTexture } from '../textures/textures.js'
+import { drawTexture, textureW } from '../textures/textures.js'
 
 export default class Mario{
-  constructor(x, y, w, h){
+  constructor(x, y, skin){
     this.x = x; this.y = y
     this.vx = 0; this.vy = 0
-    this.w = w; this.h = h
+    this.w = textureW; this.h = textureW
 
     this.direction = 0
     this.facing = 1
@@ -14,7 +14,7 @@ export default class Mario{
     this.onGround = false
     this.jumping = false
 
-    this.skin = 'mario'
+    this.skin = skin
     this.animRun = createAnimation(['run-1','run-2','run-3'], 8)
   }
 

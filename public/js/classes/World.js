@@ -4,6 +4,7 @@ import Mario from './Mario.js'
 import Background from './Background.js'
 import Collider from './Collider.js'
 import { createMushrooms, createMushroom } from './Mushroom.js'
+import { generateTheme } from '../textures/themes.js'
 
 export default class World{
   constructor(canvas){
@@ -14,20 +15,31 @@ export default class World{
     this.gridW = this.w/textureW
     this.gridH = this.h/textureW
 
-    this.mario = new Mario(textureW*2, textureW*2, textureW, textureW)
+    this.theme = generateTheme()
+    this.theme.background = {
+      background: this.theme.background,
+      cloud: this.theme.cloud
+    }
+
+    this.mario = new Mario(textureW*2, textureW*2, this.theme.mario)
     setupKeyboard(this.mario)
 
     this.backgrounds = [
-      new Background(0, this.gridW, this.gridH),
-      new Background(this.w, this.gridW, this.gridH),
-      new Background(2*this.w, this.gridW, this.gridH),
+      new Background(0, this.gridW, this.gridH, this.theme.background),
+      new Background(this.w, this.gridW, this.gridH, this.theme.background),
+      new Background(2*this.w, this.gridW, this.gridH, this.theme.background),
     ]
 
     const numberOfMushrooms = 20
-    const startMushroom = createMushroom(1, 8, this.gridH)
+    const startMushroom = createMushroom(1, 8, this.gridH, this.theme.mushroom)
     this.mushrooms = [
       startMushroom,
-      ...createMushrooms(numberOfMushrooms, startMushroom, this.gridH)
+      ...createMushrooms(
+        numberOfMushrooms,
+        startMushroom,
+        this.gridH,
+        this.theme.mushroom
+      )
     ]
 
     this.collider = new Collider(this.mushrooms)
@@ -57,7 +69,8 @@ export default class World{
     const newMushrooms = createMushrooms(
       number,
       this.mushrooms[this.mushrooms.length-1],
-      this.gridH
+      this.gridH,
+      this.theme.mushroom
     )
     this.mushrooms = [...this.mushrooms, ...newMushrooms]
   }
@@ -74,7 +87,9 @@ export default class World{
 
     const lastX = this.backgrounds[this.backgrounds.length-1].x
     this.backgrounds.push(
-      new Background(lastX + this.w, this.gridW, this.gridH)
+      new Background(
+        lastX + this.w, this.gridW, this.gridH, this.theme.background
+      )
     )
     this.backgrounds.shift()
   }

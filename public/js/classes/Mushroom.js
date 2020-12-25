@@ -2,12 +2,12 @@ import { getRandom } from '../utils.js'
 import { textureW, drawTexture, fillTextureRange } from '../textures/textures.js'
 
 export class Mushroom{
-  constructor(x, y, capSize, stipeSize){
+  constructor(x, y, capSize, stipeSize, skin){
     this.x = x
     this.y = y
     this.capSize = capSize
     this.stipeSize = stipeSize
-    this.skin = 'm-orange'
+    this.skin = skin
   }
 
   getBounds(){
@@ -72,7 +72,7 @@ export class Mushroom{
   }
 }
 
-export function createMushroom(gridX, gridY, gridH){
+export function createMushroom(gridX, gridY, gridH, skin){
   let capSize = getRandom(3, 10)
   //cap size must be odd
   if(capSize%2 === 0) capSize ++
@@ -83,11 +83,12 @@ export function createMushroom(gridX, gridY, gridH){
     gridX * textureW,
     gridY * textureW,
     capSize,
-    stipeSize
+    stipeSize,
+    skin
   )
 }
 
-export function createMushrooms(number, lastMushroom, gridH){
+export function createMushrooms(number, lastMushroom, gridH, skin){
   const mushrooms = []
   let prevMushroom = lastMushroom
 
@@ -107,7 +108,7 @@ export function createMushrooms(number, lastMushroom, gridH){
       newY = prevY - 3
     }
 
-    const mushroom = createMushroom(newX, newY, gridH)
+    const mushroom = createMushroom(newX, newY, gridH, skin)
     mushrooms.push(mushroom)
     prevMushroom = mushroom
   }
