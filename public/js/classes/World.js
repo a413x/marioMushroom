@@ -17,7 +17,11 @@ export default class World{
     this.mario = new Mario(textureW*2, textureW*2, textureW, textureW)
     setupKeyboard(this.mario)
 
-    this.background = new Background(this.gridW, this.gridH)
+    this.backgrounds = [
+      new Background(0, this.gridW, this.gridH),
+      new Background(this.w, this.gridW, this.gridH),
+      new Background(2*this.w, this.gridW, this.gridH),
+    ]
 
     const numberOfMushrooms = 20
     const startMushroom = createMushroom(1, 8, this.gridH)
@@ -28,7 +32,7 @@ export default class World{
 
     this.collider = new Collider(this.mushrooms)
 
-    this.cameraX = 0
+    this.distance = 0
   }
 
   updateMushrooms(deltaX){
@@ -58,6 +62,23 @@ export default class World{
     this.mushrooms = [...this.mushrooms, ...newMushrooms]
   }
 
+  updateBackground(deltaX){
+    this.backgrounds.forEach(background => {
+      background.x -= deltaX
+    })
+
+    this.distance += deltaX
+    if(this.distance < this.w) return
+
+    this.distance = 0
+
+    const lastX = this.backgrounds[this.backgrounds.length-1].x
+    this.backgrounds.push(
+      new Background(lastX + this.w, this.gridW, this.gridH)
+    )
+    this.backgrounds.shift()
+  }
+
   update(deltaTime){
     const mario = this.mario
 
@@ -75,6 +96,7 @@ export default class World{
     if(mario.x > 100) {
       const deltaX = Math.round(mario.x - 100)
       this.updateMushrooms(deltaX)
+      this.updateBackground(deltaX)
       mario.x = 100
     }
     if(mario.x < 0) {
@@ -85,7 +107,7 @@ export default class World{
   draw(){
     const context = this.context
     context.clearRect(0, 0, this.w, this.h)
-    this.background.draw(context)
+    this.backgrounds.forEach(background => background.draw(context))
     this.mushrooms.forEach(mushroom => mushroom.drawStipe(context))
     this.mushrooms.forEach(mushroom => mushroom.drawCap(context))
     this.mario.draw(context)

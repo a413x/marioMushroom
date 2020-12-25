@@ -1,6 +1,7 @@
 //import image from './texturesImage.js'
 import {marioTextures} from './marioTextures.js'
 import {backgroundTextures} from './backgroundTextures.js'
+import {cloudTextures} from './backgroundTextures.js'
 import {mushroomTextures} from './mushroomTextures.js'
 
 export const textureW = 16
@@ -13,6 +14,7 @@ image.addEventListener('load', e => {
     ...createTextures(marioTextures),
     ...createTextures(marioTextures, true),
     ...createTextures(backgroundTextures),
+    ...createTextures(cloudTextures),
     ...createTextures(mushroomTextures)
   }
 })

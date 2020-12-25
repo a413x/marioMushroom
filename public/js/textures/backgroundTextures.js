@@ -5,5 +5,39 @@ export const backgroundTextures = {
     'blue': [0, 80],
     'red': [0, 128],
     'black':[0,112]
+  },
+}
+export const cloudTextures = {
+  'c-red':{
+    'top-left': [80, 0],
+    'top-center': [96, 0],
+    'top-right': [112, 0],
+    'bot-left': [80, 16],
+    'bot-center': [96, 16],
+    'bot-right': [112, 16],
+  },
+  'c-blue':{
+    'top-left': [80, 32],
+    'top-center': [96, 32],
+    'top-right': [112, 32],
+    'bot-left': [80, 48],
+    'bot-center': [96, 48],
+    'bot-right': [112, 48],
+  },
+  'c-light-blue':{
+    'top-left': [80, 64],
+    'top-center': [96, 64],
+    'top-right': [112, 64],
+    'bot-left': [80, 64],
+    'bot-center': [96, 64],
+    'bot-right': [112, 64],
+  },
+  'c-light-blue-2':{
+    'top-left': [80, 80],
+    'top-center': [96, 80],
+    'top-right': [112, 80],
+    'bot-left': [80, 80],
+    'bot-center': [96, 80],
+    'bot-right': [112, 80],
   }
 }
