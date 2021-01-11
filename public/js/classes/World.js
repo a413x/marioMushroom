@@ -3,6 +3,7 @@ import { setupKeyboard } from '../setupKeyboard.js'
 import Mario from './Mario.js'
 import Background from './Background.js'
 import Collider from './Collider.js'
+import Score from './Score.js'
 import { createMushrooms, createMushroom } from './Mushroom.js'
 import { generateTheme } from '../textures/themes.js'
 
@@ -43,6 +44,7 @@ export default class World{
     ]
 
     this.collider = new Collider(this.mushrooms)
+    this.score = new Score()
 
     this.distance = 0
   }
@@ -112,6 +114,7 @@ export default class World{
       const deltaX = Math.round(mario.x - 100)
       this.updateMushrooms(deltaX)
       this.updateBackground(deltaX)
+      this.score.updateScore(deltaX)
       mario.x = 100
     }
     if(mario.x < 0) {
@@ -126,5 +129,6 @@ export default class World{
     this.mushrooms.forEach(mushroom => mushroom.drawStipe(context))
     this.mushrooms.forEach(mushroom => mushroom.drawCap(context))
     this.mario.draw(context)
+    this.score.draw(context)
   }
 }
