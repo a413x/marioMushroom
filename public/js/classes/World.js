@@ -1,4 +1,4 @@
-import { textureW } from '../textures.js'
+import { textureW } from '../textures/textures.js'
 import { setupKeyboard } from '../setupKeyboard.js'
 import Mario from './Mario.js'
 import Background from './Background.js'

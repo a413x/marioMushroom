@@ -1,4 +1,3 @@
-//import image from './texturesImage.js'
 import {marioTextures} from './marioTextures.js'
 import {backgroundTextures} from './backgroundTextures.js'
 import {cloudTextures} from './backgroundTextures.js'
