@@ -1,8 +1,10 @@
 import World from './classes/World.js'
+import {showRestartMessage} from './textures/restartMessage.js'
 
 const canvas = document.getElementById('canvas')
+const context = canvas.getContext('2d')
 
-const world = new World(canvas)
+let world = new World(canvas)
 
 const deltaTime = 1/60
 let prevTime = 0
@@ -13,7 +15,12 @@ function game(time){
   prevTime = time
 
   while(accumulatedTime > deltaTime){
-    world.update(deltaTime)
+    const isOver = world.update(deltaTime)
+    if(isOver) {
+      world.draw()
+      showRestartMessage(context)
+      return
+    }
     accumulatedTime -= deltaTime
   }
 
@@ -23,3 +30,14 @@ function game(time){
 }
 
 requestAnimationFrame(game)
+
+//R to restart
+window.addEventListener('keydown',(e) => {
+  if(e.keyCode === 82) newGame()
+})
+canvas.addEventListener('click',() => newGame())
+
+function newGame(){
+  world = new World(canvas)
+  requestAnimationFrame(game)
+}

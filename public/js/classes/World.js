@@ -120,6 +120,9 @@ export default class World{
     if(mario.x < 0) {
       mario.x = 0
     }
+
+    //game over
+    return mario.y > this.h
   }
 
   draw(){
