@@ -106,11 +106,19 @@ const themes = {
 }
 
 export function generateTheme(){
-  //50% chance to get light theme
-  const lightChance = getRandom(0, 2) === 0
+  const randomTheme = getRandom(0, 100)
 
-  const themeName = lightChance ?
-                  'light' : getRandomArrayElement(Object.keys(themes).slice(1))
+  //chances
+  let themeName = 'light'
+  if(randomTheme < 5){
+    themeName = 'red'
+  }
+  else if(randomTheme < 20){
+    themeName = 'dark-2'
+  }
+  else if (randomTheme < 40) {
+    themeName = 'dark-1'
+  }
 
   const randomTextures = {}
   const theme = themes[themeName]
