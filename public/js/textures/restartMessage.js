@@ -12,13 +12,13 @@ export function showRestartMessage(c){
   c.strokeStyle = 'green'
   c.lineWidth = 5
   c.beginPath()
-  c.ellipse(122, 140, 25, 25, Math.PI*2, 0, Math.PI*2)
+  c.ellipse(130, 140, 25, 25, Math.PI*2, 0, Math.PI*2)
   c.stroke()
   c.fillStyle = 'orange'
   c.beginPath()
-  c.ellipse(122, 140, 25, 25, Math.PI*2, 0, Math.PI*2)
+  c.ellipse(130, 140, 25, 25, Math.PI*2, 0, Math.PI*2)
   c.fill()
   c.fillStyle = 'yellow'
   c.font = '32px serif'
-  c.fillText('↻', 110, 150)
+  c.fillText('↻', 118, 150)
 }

@@ -1,5 +1,6 @@
 import World from './classes/World.js'
 import {showRestartMessage} from './textures/restartMessage.js'
+import {onResize} from './resize.js'
 
 const canvas = document.getElementById('canvas')
 const context = canvas.getContext('2d')
@@ -36,6 +37,9 @@ window.addEventListener('keydown',(e) => {
   if(e.keyCode === 82) newGame()
 })
 canvas.addEventListener('click',() => newGame())
+
+window.addEventListener('resize', () => onResize(canvas.width, canvas.height))
+onResize(canvas.width, canvas.height)
 
 function newGame(){
   world = new World(canvas)
