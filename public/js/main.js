@@ -7,6 +7,8 @@ const context = canvas.getContext('2d')
 
 let world = new World(canvas)
 
+let gameOver = false
+
 const deltaTime = 1/60
 let prevTime = 0
 let accumulatedTime = 0
@@ -20,6 +22,7 @@ function game(time){
     if(isOver) {
       world.draw()
       showRestartMessage(context)
+      gameOver = true
       return
     }
     accumulatedTime -= deltaTime
@@ -34,14 +37,21 @@ requestAnimationFrame(game)
 
 //R to restart
 window.addEventListener('keydown',(e) => {
-  if(e.keyCode === 82) newGame()
+  if(e.keyCode === 82 && gameOver) {
+    newGame()
+  }
 })
-canvas.addEventListener('click',() => newGame())
+canvas.addEventListener('click',() => {
+  if(gameOver) {
+    newGame()
+  }
+})
 
 window.addEventListener('resize', () => onResize(canvas.width, canvas.height))
 onResize(canvas.width, canvas.height)
 
 function newGame(){
+  gameOver = false
   world = new World(canvas)
   requestAnimationFrame(game)
 }
