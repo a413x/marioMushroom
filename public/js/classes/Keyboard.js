@@ -27,10 +27,7 @@ export default class Keyboard{
   }
 
   listen(window){
-    ['keydown','keyup'].forEach(eventName => {
-      window.addEventListener(eventName, e => {
-        this.handleEvent(e)
-      })
-    })
+    window.onkeyup = (e) => this.handleEvent(e)
+    window.onkeydown = (e) => this.handleEvent(e)
   }
 }
