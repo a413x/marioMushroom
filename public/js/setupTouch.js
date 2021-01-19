@@ -1,6 +1,8 @@
 let direction = 1, prevY
 
 export function setupTouch(mario){
+  document.documentElement.oncontextmenu = () => false;
+
   window.ontouchstart = (e) => {
     const touch = e.changedTouches[0]
     const touchX = touch.pageX
