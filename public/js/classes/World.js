@@ -1,5 +1,6 @@
 import { textureW } from '../textures/textures.js'
 import { setupKeyboard } from '../setupKeyboard.js'
+import { setupTouch } from '../setupTouch.js'
 import Mario from './Mario.js'
 import Background from './Background.js'
 import Collider from './Collider.js'
@@ -24,6 +25,7 @@ export default class World{
 
     this.mario = new Mario(textureW*2, textureW*2, this.theme.mario)
     setupKeyboard(this.mario)
+    setupTouch(this.mario)
 
     this.backgrounds = [
       new Background(0, this.gridW, this.gridH, this.theme.background),
