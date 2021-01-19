@@ -4,11 +4,11 @@ export function onResize(canvW, canvH){
   const w = canvW * scale
   const h = canvH * scale
 
-  let docW = document.documentElement.clientWidth
-  let docH = document.documentElement.clientHeight
+  const docW = document.documentElement.clientWidth
+  const docH = document.documentElement.clientHeight
 
   if(docH < h || docW < w){
-    document.body.style.zoom = docH/h < docW/w ? docH/h : docW/w * scale
+    document.body.style.zoom = (docH/h < docW/w ? docH/h : docW/w) * scale
   }else{
     document.body.style.zoom = scale
   }
