@@ -4,6 +4,7 @@ export function setupTouch(mario){
   document.documentElement.oncontextmenu = () => false;
 
   window.ontouchstart = (e) => {
+    if(e.touches.length > 1) return
     const touch = e.changedTouches[0]
     const touchX = touch.pageX
     prevY = touch.pageY
@@ -26,6 +27,7 @@ export function setupTouch(mario){
     prevY = touchY
   }
   window.ontouchend = (e) => {
+    if(e.touches.length !== 0) return
     mario.direction += -direction
   }
 }
